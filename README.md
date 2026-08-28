@@ -23,29 +23,32 @@ a downloadable desktop client.
 
 - **Backend:** Java, Spring Boot (Web, WebSocket/STOMP, Data JPA)
 - **Dev DB:** H2 (will swap to Postgres later for deploy)
-- **Frontend:** React, Vite
+- **Frontend:** React (Vite)
 - **Desktop packaging:** Electron
-- **Realtime transport:** STOMP over WebSocket
+- **Realtime transport:** WebSocket over STOMP
 
-## REST API (draft)
+## REST API (current model)
 
 | Method | Path | Purpose |
 |---|---|---|
-| POST | `/api/identity` | Create a new identity, returns `{ username, token }` |
+| POST | `/api/identity` | Create a new identity and returns `{ username, token }` |
 | GET | `/api/identity/me` | Resolve current identity from token |
-| GET | `/api/rooms` | List open rooms (Lobby + active user rooms) |
-| POST | `/api/rooms` | Create a room (enforces 1-per-identity + IP rate limit) |
-| GET | `/api/rooms/{id}` | Room details (name, expiresAt) |
-| GET | `/api/rooms/{id}/messages` | Message history for a room (paginated) |
-| GET | `/api/catalog` | List of premade phrases |
+| GET | `/api/rooms` | List open rooms |
+| POST | `/api/rooms` | Create a room |
+| GET | `/api/rooms/{id}` | Room details |
+| GET | `/api/rooms/{id}/messages` | Message history for a room |
+| GET | `/api/rooms/{id}/occupants` | Snapshot of users currently in a room |
+| GET | `/api/rooms/{id}/presence` | Snapshot of users connected to the server (currently unused) |
 
-## WebSocket (STOMP) - draft
+## WebSocket (STOMP) (current model)
 
 | Destination | Direction | Purpose |
 |---|---|---|
-| `/app/rooms/{id}/send` | client -> server | Send a catalog message (by catalogEntryId) into a room |
-| `/topic/rooms/{id}` | server -> client | Broadcast new messages to room subscribers |
-| `/topic/rooms/{id}/system` | server -> client | Join/leave/room-closing notifications |
+| `/app/rooms/{id}/send` | client -> server | Send a text message ({ text }) into a room |
+| `/topic/rooms/{id}` | server -> client | USER_JOINED / USER_LEFT / ROOM_OCCUPANTS / ROOM_CLOSED |
+| `/topic/rooms/{id}/system` | server -> client | Join/leave/room closing notifications |
+| `/topic/rooms` | server -> client | Full open room list (broadcast on any create/close/occupancy change) |
+| `/topic/presence` | server -> client | Global connected users list (currently unused) |
 
 ## Running locally
 
