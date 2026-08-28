@@ -4,16 +4,9 @@ A full stack rewrite of an old raw socket chat client/server,
 redesigned as a modern client server system with a REST + WebSocket API and
 a downloadable desktop client.
 
-## Why this project exists
-
-The original version was a bare Python socket client/server.
-This rewrite keeps the original spirit but rebuilds it with proper
-architecture using a Spring Boot backend exposing a REST API and a live
-WebSocket feed, and a React frontend packaged as an Electron desktop app.
-
 ## Features
 
-- **Anonymous, persistent identity** - a random animal themed username
+- **Anonymous/persistent identity** - a random animal themed username
   is generated on first launch and stored locally so no accounts or passwords.
 - **Rooms** - a permanent default **Lobby**, plus user 
   created rooms (one per identity).
@@ -61,8 +54,8 @@ WebSocket feed, and a React frontend packaged as an Electron desktop app.
 cd backend
 ./mvnw spring-boot:run
 ```
-Runs on `http://localhost:8080`, using an in memory H2 database (no setup
-required). If `./mvnw` isn't present, run `mvn -N wrapper:wrapper` once to
+Runs on `http://localhost:8080`, using an in memory H2 database. 
+If `./mvnw` isn't present, run `mvn -N wrapper:wrapper` once to
 generate it, or run `HabiChatApplication` directly from your IDE.
 
 ### Frontend (web, for development)
