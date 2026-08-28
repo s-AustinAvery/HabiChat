@@ -1,0 +1,29 @@
+{
+  "name": "habichat-desktop",
+  "version": "0.1.0",
+  "description": "Desktop shell for the chat app (wraps the React frontend)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^43.0.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.habichat.desktop",
+    "productName": "HabiChat",
+    "files": [
+      "main.js",
+      "preload.js",
+      "../frontend/dist/**"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "mac": { "target": "dmg" },
+    "win": { "target": "nsis" },
+    "linux": { "target": "AppImage" }
+  }
+}

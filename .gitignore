@@ -1,0 +1,30 @@
+# Java / Maven
+backend/target/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# Node / React / Electron
+node_modules/
+frontend/dist/
+frontend/build/
+electron/dist/
+electron/out/
+npm-debug.log*
+
+# Env
+.env
+.env.local
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# DB
+*.db
+*.mv.db
