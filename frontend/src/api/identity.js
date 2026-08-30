@@ -27,3 +27,7 @@ export async function ensureIdentity() {
 export function getToken() {
   return localStorage.getItem(TOKEN_KEY);
 }
+
+export function getUsername() {
+  return localStorage.getItem(USERNAME_KEY);
+}

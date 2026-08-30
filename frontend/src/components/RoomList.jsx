@@ -19,7 +19,7 @@ export default function RoomList({ rooms, onSelect, onCreate }) {
         {rooms.map((room) => (
           <li key={room.id}>
             <button onClick={() => onSelect(room.id)}>
-              {room.name} ({room.occupantCount})
+              {room.name}<span className="room-count">{room.occupantCount}</span>
             </button>
           </li>
         ))}

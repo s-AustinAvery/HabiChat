@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../api/client.js';
 import { getClient } from '../ws/socket.js';
-import { getToken } from '../api/identity.js';
+import { getToken, getUsername } from '../api/identity.js';
 import MessageFeed from '../components/MessageFeed.jsx';
 import MessageInput from '../components/MessageInput.jsx';
 import UserList from '../components/UserList.jsx';
@@ -73,7 +73,7 @@ export default function RoomPage({ roomId, onRoomClosed }) {
   return (
     <div className="room-page-body">
       <div className="room-page">
-        <MessageFeed events={events} />
+        <MessageFeed events={events} currentUsername={getUsername()} />
         <MessageInput onSend={sendMessage} />
       </div>
       <UserList users={occupants} />
