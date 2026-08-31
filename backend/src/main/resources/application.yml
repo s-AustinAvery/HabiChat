@@ -26,3 +26,5 @@ chatapp:
   room:
     expiry-hours: 24
     creation-rate-limit-per-ip-per-hour: 3
+  message:
+    retention-limit: 150

@@ -3,12 +3,12 @@ const path = require('path');
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 820,
-    height: 680,
+    width: 1280,
+    height: 720,
     minWidth: 640,
-    minHeight: 520,
-    maxWidth: 1000,
-    maxHeight: 800,
+    minHeight: 480,
+    maxWidth: 1280,
+    maxHeight: 720,
     title: 'HabiChat',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
