@@ -6,6 +6,7 @@ import com.chatapp.entity.Identity;
 import com.chatapp.entity.Message;
 import com.chatapp.entity.Room;
 import com.chatapp.repository.MessageRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +23,14 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final SimpMessagingTemplate messagingTemplate;
+    private final int retentionLimit;
 
     public MessageService(MessageRepository messageRepository,
-                           SimpMessagingTemplate messagingTemplate) {
+                          SimpMessagingTemplate messagingTemplate,
+                          @Value("${chatapp.message.retention-limit:150}") int retentionLimit) {
         this.messageRepository = messageRepository;
         this.messagingTemplate = messagingTemplate;
+        this.retentionLimit = retentionLimit;
     }
 
     public List<MessageResponse> history(UUID roomId) {
@@ -57,9 +61,22 @@ public class MessageService {
                 .text(text)
                 .build();
         messageRepository.save(message);
+        pruneOldMessages(room);
 
         MessageResponse response = toResponse(message);
         messagingTemplate.convertAndSend("/topic/rooms/" + room.getId(), response);
+    }
+
+    /**
+     * room history limited to specific number of messages
+     * deleting anything past the max message count
+     */
+    private void pruneOldMessages(Room room) {
+        List<Message> ordered = messageRepository.findByRoomIdOrderBySentAtAsc(room.getId());
+        int overflow = ordered.size() - retentionLimit;
+        if (overflow > 0) {
+            messageRepository.deleteAll(ordered.subList(0, overflow));
+        }
     }
 
     private String sanitize(String raw) {

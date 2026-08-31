@@ -6,6 +6,21 @@ import MessageFeed from '../components/MessageFeed.jsx';
 import MessageInput from '../components/MessageInput.jsx';
 import UserList from '../components/UserList.jsx';
 
+const MAX_VISIBLE_MESSAGES = 150;
+
+function trimToRetention(events, limit) {
+  let messageCount = 0;
+  for (let i = events.length - 1; i >= 0; i--) {
+    if (events[i].kind === 'message') {
+      messageCount++;
+      if (messageCount > limit) {
+        return events.slice(i + 1);
+      }
+    }
+  }
+  return events;
+}
+
 export default function RoomPage({ roomId, onRoomClosed }) {
   const [events, setEvents] = useState([]);
   const [occupants, setOccupants] = useState([]);
@@ -18,7 +33,7 @@ export default function RoomPage({ roomId, onRoomClosed }) {
 
     api.roomMessages(roomId).then((history) => {
       if (cancelled) return;
-      setEvents(history.map((m) => ({ kind: 'message', ...m })));
+      setEvents(trimToRetention(history.map((m) => ({ kind: 'message', ...m })), MAX_VISIBLE_MESSAGES));
     });
 
     getClient().then((c) => {
@@ -39,17 +54,21 @@ export default function RoomPage({ roomId, onRoomClosed }) {
         }
         // USER_JOINED / USER_LEFT for logging
         // Room broadcast is done by ROOM_OCCUPANTS
-        setEvents((prev) => [
-          ...prev,
-          { kind: 'system', id: crypto.randomUUID(), ...notice },
-        ]);
+        setEvents((prev) =>
+          trimToRetention(
+            [...prev, { kind: 'system', id: crypto.randomUUID(), ...notice }],
+            MAX_VISIBLE_MESSAGES
+          )
+        );
       });
 
       messageSub = c.subscribe(
         `/topic/rooms/${roomId}`,
         (frame) => {
           const message = JSON.parse(frame.body);
-          setEvents((prev) => [...prev, { kind: 'message', ...message }]);
+          setEvents((prev) => 
+            trimToRetention([...prev, { kind: 'message', ...message }], MAX_VISIBLE_MESSAGES)
+          );
         },
         { token: getToken() ?? '' }
       );
