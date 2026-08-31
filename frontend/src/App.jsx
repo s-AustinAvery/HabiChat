@@ -62,6 +62,8 @@ export default function App() {
 
   if (!ready) return <div>Loading...</div>;
 
+  const activeRoom = rooms.find((r) => r.id === activeRoomId);
+
   return (
     <div className="app">
       <header>
@@ -70,7 +72,7 @@ export default function App() {
       </header>
       {activeRoomId ? (
         <>
-          <button onClick={() => setActiveRoomId(null)}>&larr; Back to rooms</button>
+          <button className="back-button" onClick={() => setActiveRoomId(null)}>&#8617; Leave {activeRoom?.name ?? 'room'}</button>
           <RoomPage roomId={activeRoomId} onRoomClosed={handleRoomClosed} />
         </>
       ) : (

@@ -3,8 +3,12 @@ const path = require('path');
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1100,
-    height: 750,
+    width: 820,
+    height: 680,
+    minWidth: 640,
+    minHeight: 520,
+    maxWidth: 1000,
+    maxHeight: 800,
     title: 'HabiChat',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -13,8 +17,8 @@ function createWindow() {
     },
   });
 
-  // In production, load the built React app.
-  // In dev, point this at http://localhost:5173 (the Vite dev server) instead.
+  // In production load the built React app
+  // In dev point at the http://localhost:5173 Vite dev server instead
   const isDev = !app.isPackaged;
   if (isDev) {
     win.loadURL('http://localhost:5173');

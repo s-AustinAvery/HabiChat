@@ -11,11 +11,6 @@ function systemText(notice) {
   }
 }
 
-function formatTime(iso) {
-  if (!iso) return '';
-  return new Date(iso).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-}
-
 export default function MessageFeed({ events, currentUsername }) {
   const bottomRef = useRef(null);
 
@@ -36,8 +31,7 @@ export default function MessageFeed({ events, currentUsername }) {
             className={`message ${e.senderUsername === currentUsername ? 'message--own' : ''}`}
           >
             <span className="sender">{e.senderUsername}</span>
-            <span>{e.text}</span>
-            <span className="time">{formatTime(e.sentAt)}</span>
+            <span className="text">{e.text}</span>
           </div>
         )
       )}

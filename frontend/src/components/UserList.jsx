@@ -6,10 +6,7 @@ export default function UserList({ users }) {
       <h2>Online ({users.length})</h2>
       <ul>
         {users.map((username) => (
-          <li key={username}>
-            <span className="presence-dot" />
-            {username}
-          </li>
+          <li key={username}>{username}</li>
         ))}
       </ul>
     </aside>

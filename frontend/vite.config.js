@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  // sockjs-client assumes a Node-style `global` exists; Vite doesn't
-  // polyfill this by default, so alias it to the browser's globalThis.
+  // sockjs client assumes a Node style `global` exists but Vite doesnt
+  // polyfill this to alias it to the browser's globalThis.
   define: {
     global: 'globalThis',
   },
@@ -12,7 +12,7 @@ export default defineConfig({
     port: 5173,
   },
   build: {
-    // Electron loads this as a file:// build, so keep asset paths relative
+    // Electron loads this as a file:// build, keep asset paths relative
     outDir: 'dist',
     assetsDir: 'assets',
   },
