@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>com.chatapp</groupId>
+    <groupId>com.habichat</groupId>
     <artifactId>habichat-backend</artifactId>
     <version>0.1.0</version>
     <name>habichat-backend</name>
@@ -19,7 +19,6 @@
 
     <properties>
         <java.version>21</java.version>
-        <!-- Spring Boot 3.3.0's default Lombok version predates JDK 24 support -->
         <lombok.version>1.18.38</lombok.version>
     </properties>
 
@@ -41,9 +40,17 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
