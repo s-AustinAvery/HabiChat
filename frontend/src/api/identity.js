@@ -1,7 +1,7 @@
 import { api } from './client.js';
 
-const TOKEN_KEY = 'chatapp_token';
-const USERNAME_KEY = 'chatapp_username';
+const TOKEN_KEY = 'habichat_token';
+const USERNAME_KEY = 'habichat_username';
 
 export async function ensureIdentity() {
   const existingToken = localStorage.getItem(TOKEN_KEY);

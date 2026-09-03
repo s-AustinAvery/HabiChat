@@ -1,7 +1,7 @@
 const BASE_URL = 'http://localhost:8080/api';
 
 function authHeaders() {
-  const token = localStorage.getItem('chatapp_token');
+  const token = localStorage.getItem('habichat_token');
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
